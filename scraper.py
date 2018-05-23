@@ -11,13 +11,13 @@ fb = FogBugz(S_FOGBUGZ_URL, TOKEN)
 #fb.logon(S_EMAIL, S_PASSWORD)
 
 #Get all cases in milestone 2018.2
-resp = fb.search(q='milestone:"2018.2"',cols="ixBug,ixBugParent,fOpen,sTitle,ixProject,ixArea,sArea,ixStatus,ixPriority,sFixFor,sVersion,sComputer,ixCategory,dtOpened,dtClosed,plugin_customfields_at_fogcreek_com_userxpainr32d")
+resp = fb.search(q='milestone:"2018.2"',cols="ixBug,ixBugParent,fOpen,sTitle,sProject,ixArea,sArea,sStatus,ixPriority,sFixFor,sVersion,sComputer,ixCategory,dtOpened,dtClosed,plugin_customfields_at_fogcreek_com_userxpainr32d")
 #print resp
 filename = "fogbugzData.csv"
 
 csv = open(filename, "w")
 
-columnTitleRow = "BugID,BugParentID,isOpen,Title,Project,AreaID,Area,Status,Priority,FixFor,Version,Computer,Category,plugin_customfields_at_fogcreek_com_userxpainr32d"
+columnTitleRow = "Bug ID,Bug Parent ID,is Open,Title,Project,Area ID,Area,Status,Priority,Fix For,Version,Computer,Category,User Pain"
 
 csv.write(columnTitleRow)
 csv.write("\n")
@@ -42,8 +42,8 @@ for case in resp.cases.childGenerator():
 	else:
 		title = "No Title"
 
-	if case.ixProject.string != None:
-		project = case.ixProject.string
+	if case.sProject.string != None:
+		project = case.sProject.string
 	else:
 		project = ""
 
@@ -57,8 +57,8 @@ for case in resp.cases.childGenerator():
 	else:
 		area = ""
 
-	if case.ixStatus.string != None:
-		status = case.ixStatus.string
+	if case.sStatus.string != None:
+		status = case.sStatus.string
 	else:
 		status = "Unknown"
 
