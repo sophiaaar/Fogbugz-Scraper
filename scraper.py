@@ -12,12 +12,12 @@ fb = FogBugz(S_FOGBUGZ_URL, TOKEN)
 
 #Get all cases in milestone 2018.2
 resp = fb.search(q='milestone:"2018.2"',cols="ixBug,ixBugParent,fOpen,sTitle,ixProject,ixArea,sArea,ixStatus,ixPriority,sFixFor,sVersion,sComputer,ixCategory,dtOpened,dtClosed,plugin_customfields_at_fogcreek_com_userxpainr32d")
-print resp
+#print resp
 filename = "fogbugzData.csv"
 
 csv = open(filename, "w")
 
-columnTitleRow = "ixBug,ixBugParent,fOpen,ixProject,ixArea,sArea,ixStatus,ixPriority,sFixFor,sVersion,ixCategory,plugin_customfields_at_fogcreek_com_userxpainr32d"
+columnTitleRow = "BugID,BugParentID,isOpen,Title,Project,AreaID,Area,Status,Priority,FixFor,Version,Computer,Category,plugin_customfields_at_fogcreek_com_userxpainr32d"
 
 csv.write(columnTitleRow)
 csv.write("\n")
@@ -37,10 +37,10 @@ for case in resp.cases.childGenerator():
 	else:
 		openBool = "false"
 
-	#if case.sTitle.string != None:
-	#	title = case.sTitle.string
-	#else:
-	#	title = "No Title"
+	if case.sTitle.string != None:
+		title = case.sTitle.string.encode('utf-8').decode('ascii', 'ignore').replace(',',' ')
+	else:
+		title = "No Title"
 
 	if case.ixProject.string != None:
 		project = case.ixProject.string
@@ -53,7 +53,7 @@ for case in resp.cases.childGenerator():
 		areaID = "0"
 
 	if case.sArea.string != None:
-		area = case.sArea.string
+		area = case.sArea.string.replace(',',' ')
 	else:
 		area = ""
 
@@ -73,14 +73,14 @@ for case in resp.cases.childGenerator():
 		milestone = "2018.2" #change this when I make the milestone a cmd line arg
 
 	if case.sVersion.string != None:
-		version = case.sVersion.string
+		version = case.sVersion.string.replace(',',' ')
 	else:
 		version = "Unknown"
 
-	#if case.sComputer.string != None:
-	#	computer = case.sComputer.string
-	#else:
-	#	computer = "Unknown"
+	if case.sComputer.string != None:
+		computer = case.sComputer.string.encode('utf-8').decode('ascii', 'ignore').replace(',',' ')
+	else:
+		computer = "Unknown"
 
 	if case.ixCategory.string != None:
 		category = case.ixCategory.string
@@ -92,6 +92,6 @@ for case in resp.cases.childGenerator():
 	else:
 		userpain = "0"
 
-	row = bugID +","+ bugParentID +","+ openBool +","+ project +","+ areaID +","+ area +","+ status +","+ priority +","+ milestone +","+ version +","+ category +","+ userpain +","+ "\n"
+	row = bugID +","+ bugParentID +","+ openBool +","+ title +","+ project +","+ areaID +","+ area +","+ status +","+ priority +","+ milestone +","+ version +","+ computer +","+ category +","+ userpain +","+ "\n"
 
 	csv.write(row)
