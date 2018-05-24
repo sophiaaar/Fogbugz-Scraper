@@ -1,5 +1,6 @@
 from fogbugz import FogBugz
 import csv
+import sys
 
 # Fill in the following values as appropriate to your installation
 S_FOGBUGZ_URL   = 'https://fogbugz.unity3d.com'
@@ -11,8 +12,9 @@ fb = FogBugz(S_FOGBUGZ_URL, TOKEN)
 #fb.logon(S_EMAIL, S_PASSWORD)
 
 #Get all cases in milestone 2018.2
-resp = fb.search(q='milestone:"2018.2"',cols="ixBug,ixBugParent,fOpen,sTitle,sProject,ixArea,sArea,sStatus,ixPriority,sFixFor,sVersion,sComputer,ixCategory,dtOpened,dtClosed,plugin_customfields_at_fogcreek_com_userxpainr32d")
+resp = fb.search(q='milestone:"'+ sys.argv[1] +'"',cols="ixBug,ixBugParent,fOpen,sTitle,sProject,ixArea,sArea,sStatus,ixPriority,sFixFor,sVersion,sComputer,ixCategory,dtOpened,dtClosed,plugin_customfields_at_fogcreek_com_userxpainr32d")
 #print resp
+#print sys.argv[1]
 filename = "fogbugzData.csv"
 
 csv = open(filename, "w")
@@ -70,7 +72,7 @@ for case in resp.cases.childGenerator():
 	if case.sFixFor.string != None:
 		milestone = case.sFixFor.string
 	else:
-		milestone = "2018.2" #change this when I make the milestone a cmd line arg
+		milestone = sys.argv[1]
 
 	if case.sVersion.string != None:
 		version = case.sVersion.string.replace(',',' ')
