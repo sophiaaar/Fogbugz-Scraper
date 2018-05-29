@@ -19,7 +19,7 @@ filename = "fogbugzData.csv"
 
 csv = open(filename, "w")
 
-columnTitleRow = "Bug ID,Bug Parent ID,is Open,Title,Project,Area ID,Area,Status,Priority,Fix For,Version,Computer,User Pain, Date Opened"
+columnTitleRow = "Bug ID,Bug Parent ID,is Open,Title,Project,Area ID,Area,Status,Priority,Fix For,Version,Computer,User Pain, Date Opened, Date Closed"
 
 csv.write(columnTitleRow)
 csv.write("\n")
@@ -94,6 +94,11 @@ for case in resp.cases.childGenerator():
 	else:
 		dateOpened = ""
 
-	row = bugID +","+ bugParentID +","+ openBool +","+ title +","+ project +","+ areaID +","+ area +","+ status +","+ priority +","+ milestone +","+ version +","+ computer +","+ userpain +","+ dateOpened +","+ "\n"
+	if case.dtClosed.string != None:
+		dateClosed = case.dtClosed.string
+	else:
+		dateClosed = ""
+
+	row = bugID +","+ bugParentID +","+ openBool +","+ title +","+ project +","+ areaID +","+ area +","+ status +","+ priority +","+ milestone +","+ version +","+ computer +","+ userpain +","+ dateOpened +","+ dateClosed +","+ "\n"
 
 	csv.write(row)
