@@ -76,8 +76,15 @@ for case in resp.cases.childGenerator():
 
 	if case.sVersion.string != None:
 		version = case.sVersion.string.replace(',',' ')
+		if version.startswith("Version "):
+			version = version[8:]
 	else:
 		version = "Unknown"
+
+	if sys.argv[1] not in version:
+		continue
+	else:
+		version = version[:6]
 
 	if case.sComputer.string != None:
 		computer = case.sComputer.string.encode('utf-8').decode('ascii', 'ignore').replace(',',' ')
