@@ -14,7 +14,7 @@ fb = FogBugz(S_FOGBUGZ_URL, TOKEN)
 #Get all cases in milestone 2018.2
 resp = fb.search(q='version:"'+ sys.argv[1] +'*"',cols="ixBug,ixBugParent,fOpen,sTitle,sProject,ixArea,sArea,sStatus,ixPriority,sFixFor,sVersion,sComputer,dtOpened,dtClosed,plugin_customfields_at_fogcreek_com_userxpainr32d")
 #print resp
-#print sys.argv[1]
+print "Started on version" + sys.argv[1]
 filename = "fogbugzData.csv"
 
 csv = open(filename, "w")
@@ -109,3 +109,5 @@ for case in resp.cases.childGenerator():
 	row = bugID +","+ bugParentID +","+ openBool +","+ title +","+ project +","+ areaID +","+ area +","+ status +","+ priority +","+ milestone +","+ version +","+ computer +","+ userpain +","+ dateOpened +","+ dateClosed +","+ "\n"
 
 	csv.write(row)
+
+print "Done"
