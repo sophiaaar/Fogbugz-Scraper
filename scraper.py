@@ -12,7 +12,7 @@ fb = FogBugz(S_FOGBUGZ_URL, TOKEN)
 #fb.logon(S_EMAIL, S_PASSWORD)
 
 #Get all cases in milestone 2018.2
-resp = fb.search(q='milestone:"'+ sys.argv[1] +'"',cols="ixBug,ixBugParent,fOpen,sTitle,sProject,ixArea,sArea,sStatus,ixPriority,sFixFor,sVersion,sComputer,dtOpened,dtClosed,plugin_customfields_at_fogcreek_com_userxpainr32d")
+resp = fb.search(q='version:"'+ sys.argv[1] +'*"',cols="ixBug,ixBugParent,fOpen,sTitle,sProject,ixArea,sArea,sStatus,ixPriority,sFixFor,sVersion,sComputer,dtOpened,dtClosed,plugin_customfields_at_fogcreek_com_userxpainr32d")
 #print resp
 #print sys.argv[1]
 filename = "fogbugzData.csv"
